@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: gunicorn bookstore_project.wsgi -b 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "DJANGO_SECRET_KEY=gv=90tfa7mae)if^++g_u5d3f@r!v+r8edekqz+@n1oz7l)t)j"
+volumes:
+  postgres_data:
